@@ -1,23 +1,23 @@
 /* eslint-disable prettier/prettier */
 import {
-  Controller,
-  Get,
-  Param,
-  Post,
-  Body,
-  Put,
-  Delete,
+    Controller,
+    Get,
+    Param,
+    Post,
+    Body,
+    Put,
+    Delete,
 } from '@nestjs/common';
 import { UsersService } from './user.services';
 import { PostsService } from './post.service';
-import { User as UserModel, Post as PostModel } from '../generated/prisma';
+import { User as UserModel, Post as PostModel } from '../generated/prisma'
 
 @Controller()
 export class AppController {
     constructor(
         private readonly userService: UsersService,
         private readonly postService: PostsService,
-    ) {}
+    ) { }
 
     @Get('post/:id')
     async getPostById(@Param('id') id: string): Promise<PostModel | null> {
@@ -48,19 +48,19 @@ export class AppController {
 
     @Post('post')
     async createDraft(@Body() postData: { title: string; content?: string; authorEmail: string }): Promise<PostModel> {
-            const { title, content, authorEmail } = postData;
-            return this.postService.createPost({
-                title,
-                content,
-                author: {
-                    connect: { email: authorEmail },
-                },
-            });
+        const { title, content, authorEmail } = postData;
+        return this.postService.createPost({
+            title,
+            content,
+            author: {
+                connect: { email: authorEmail },
+            },
+        });
     }
 
     @Post('user')
     async signupUser(@Body() userData: { name?: string; email: string }): Promise<UserModel> {
-            return this.userService.createUser(userData);
+        return this.userService.createUser(userData);
     }
 
     @Put('publish/:id')

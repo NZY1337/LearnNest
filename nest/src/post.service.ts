@@ -5,7 +5,7 @@ import { Post, Prisma } from '../generated/prisma';
 
 @Injectable()
 export class PostsService {
-    constructor(private prisma: PrismaService) {}
+    constructor(private prisma: PrismaService) { }
 
     async post(postWhereUniqueInput: Prisma.PostWhereUniqueInput): Promise<Post | null> {
         return this.prisma.post.findUnique({
@@ -13,7 +13,8 @@ export class PostsService {
         });
     }
 
-    async posts(params: {skip?: number;
+    async posts(params: {
+        skip?: number;
         take?: number;
         cursor?: Prisma.PostWhereUniqueInput;
         where?: Prisma.PostWhereInput;
@@ -35,7 +36,7 @@ export class PostsService {
         });
     }
 
-    async updatePost(params: {where: Prisma.PostWhereUniqueInput; data: Prisma.PostUpdateInput;}): Promise<Post> {
+    async updatePost(params: { where: Prisma.PostWhereUniqueInput; data: Prisma.PostUpdateInput; }): Promise<Post> {
         const { data, where } = params;
 
         return this.prisma.post.update({
