@@ -6,18 +6,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppModule = void 0;
+exports.PostsModule = void 0;
 const common_1 = require("@nestjs/common");
-const app_controller_1 = require("./app.controller");
-const app_service_1 = require("./app.service");
-const post_module_1 = require("./post/post.module");
-let AppModule = class AppModule {
+const post_service_1 = require("./post.service");
+const post_controller_1 = require("./post.controller");
+const prisma_service_1 = require("../prisma.service");
+let PostsModule = class PostsModule {
 };
-exports.AppModule = AppModule;
-exports.AppModule = AppModule = __decorate([
+exports.PostsModule = PostsModule;
+exports.PostsModule = PostsModule = __decorate([
     (0, common_1.Module)({
-        imports: [post_module_1.PostsModule],
-        controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
+        controllers: [post_controller_1.PostsController],
+        providers: [post_service_1.PostsService, prisma_service_1.PrismaService],
     })
-], AppModule);
+], PostsModule);
