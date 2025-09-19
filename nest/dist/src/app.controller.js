@@ -54,6 +54,7 @@ let AppController = class AppController {
         });
     }
     async signupUser(userData) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return this.userService.createUser(userData);
     }
     async publishPost(id) {

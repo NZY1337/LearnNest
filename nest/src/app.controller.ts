@@ -60,6 +60,7 @@ export class AppController {
 
     @Post('user')
     async signupUser(@Body() userData: { name?: string; email: string }): Promise<UserModel> {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return this.userService.createUser(userData);
     }
 

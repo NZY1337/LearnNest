@@ -1,6 +1,13 @@
-import { Body, Controller, Get, Post, Param, NotFoundException } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Param,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateMessageDto } from './dtos/create-message.dto';
-import { MessagesService } from './messages.services';
+import { MessagesService } from './messages.service';
 
 /*
     @body decorator: @Body() body: any
@@ -11,28 +18,23 @@ import { MessagesService } from './messages.services';
 
 @Controller('messages')
 export class MessagesController {
-    messagesServices: MessagesService;
+  constructor(public messagesService: MessagesService) {}
 
-    constructor() {
-        // Don't DO this on real app
-        // use DEPS Injection
-        this.messagesServices = new MessagesService();
-    }
+  @Get()
+  listMessages() {
+    return this.messagesService.findAll();
+  }
 
-    @Get()
-    listMessages() {
-        return this.messagesServices.findAll();
-    }
+  @Post()
+  createMessage(@Body() body: CreateMessageDto) {
+    return this.messagesService.create(body.content);
+  }
 
-    @Post()
-    createMessage(@Body() body: CreateMessageDto) {
-        return this.messagesServices.create(body.content)
-    }
+  @Get(':id')
+  async getMessage(@Param('id') id: string) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const message = await this.messagesService.findOne(id);
 
-    @Get(':id')
-    async getMessage(@Param('id') id: string) {
-        const message = await this.messagesServices.findOne(id);
-
-        if (!message) throw new NotFoundException('message not found')
-    }
+    if (!message) throw new NotFoundException('message not found');
+  }
 }

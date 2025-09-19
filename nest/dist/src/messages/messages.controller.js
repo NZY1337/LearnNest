@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MessagesController = void 0;
 const common_1 = require("@nestjs/common");
 const create_message_dto_1 = require("./dtos/create-message.dto");
-const messages_services_1 = require("./messages.services");
+const messages_service_1 = require("./messages.service");
 /*
     @body decorator: @Body() body: any
     @query decorator: @Query('paramName') paramName: string
@@ -23,19 +23,18 @@ const messages_services_1 = require("./messages.services");
     @controller decorator: @Controller('messages')
 */
 let MessagesController = class MessagesController {
-    constructor() {
-        // Don't DO this on real app
-        // use DEPS Injection
-        this.messagesServices = new messages_services_1.MessagesService();
+    constructor(messagesService) {
+        this.messagesService = messagesService;
     }
     listMessages() {
-        return this.messagesServices.findAll();
+        return this.messagesService.findAll();
     }
     createMessage(body) {
-        return this.messagesServices.create(body.content);
+        return this.messagesService.create(body.content);
     }
     async getMessage(id) {
-        const message = await this.messagesServices.findOne(id);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const message = await this.messagesService.findOne(id);
         if (!message)
             throw new common_1.NotFoundException('message not found');
     }
@@ -63,5 +62,5 @@ __decorate([
 ], MessagesController.prototype, "getMessage", null);
 exports.MessagesController = MessagesController = __decorate([
     (0, common_1.Controller)('messages'),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [messages_service_1.MessagesService])
 ], MessagesController);
